@@ -70,5 +70,5 @@ jobs:
             gh pr review ${{ github.event.pull_request.number }} --approve --body "Automated approval: No security review needed."
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SECURITY_TOKEN }}
       
