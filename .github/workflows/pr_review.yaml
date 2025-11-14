@@ -45,8 +45,8 @@ jobs:
 
           Your output should be in JSON format as follows:
           {
-            "review_needed": <true|false>,
-            "explanation": "<brief explanation>"
+            \"review_needed\": <true|false>,
+            \"explanation\": \"<brief explanation>\"
           } 
           
           With all of this in mind, please review pull request number ${{ github.event.pull_request.number }} in the stephanmiehe/azure-config-demo repo and provide your response." --allow-all-tools 
