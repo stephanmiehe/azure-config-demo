@@ -25,6 +25,30 @@ jobs:
         run: npm install -g @github/copilot
 
       - name: Test
-        run: copilot -p "Hello world" --allow-all-tools
+        run: |
+          copilot -p "You are a security professional who reviews access changes to Azure in pull requests. You need to decide if an access review needs to be conducted by a security professional or if it can be handled by an automated process.
+
+          Files in the config/azure/githubazure.com/entra-resources/applications directory contain configuration settings for Azure applications. Each one should have a catalog_service entry defined under the "tags" yaml section.
+
+          Files in the config/azure/githubazure.com/entra-resources/service-principals directory contain configuration settings for Azure service principals. Each one should have a catalog_service entry defined under the "tags" yaml section.
+
+          The config/azure/githubazure.com/arm-resources/subscriptions directory contains a folder for each Azure subscription. Within the folder is a role-assignments folder. Files within that folder will have a yaml file that consists of "roleName" which is going to be one of the built-in Azure roles or a custom role defined in the config/azure/githubazure.com/arm-resources/role-definitions directory.
+
+          I'd like your response to be "true" if a human should review the access change, or "false" if it can be handled by an automated process based on the below criteria. A pull request may contain multiple access changes, but if any one of them meets the criteria for human review, your response should be "true". Criteria for human review:
+          - If the role assigned is "Owner", return "true".
+          - If the role assigned consists of any admin-level permissions, return "true".
+          - If the role assigned is a custom role, check the permissions defined in the config/azure/githubazure.com/arm-resources/role-definitions directory. If the custom role has any admin-level permissions or very broad permissions, return "true".
+          - If a service principal is being added and other service principals already have the same role assignment, return "false", even if the role being assigned is contributor.
+          - Otherwise, return "false".
+
+          Wether your response is "true" or "false", please provide a brief explanation of your decision.
+
+          Your output should be in JSON format as follows:
+          {
+            "review_needed": <true|false>,
+            "explanation": "<brief explanation>"
+          } 
+          
+          With all of this in mind, please review pull request number ${{ github.event.pull_request.number }} in the stephanmiehe/azure-config-demo repo and provide your response." --allow-all-tools 
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
