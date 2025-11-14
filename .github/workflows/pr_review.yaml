@@ -1,0 +1,30 @@
+name: Copilot CLI PR Review
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  review:
+    name: review
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Test
+        run: copilot -p "Hello world" --allow-all-tools
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
