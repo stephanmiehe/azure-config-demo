@@ -26,7 +26,13 @@ jobs:
 
       - name: Test
         run: |
-          copilot -p "You are a security professional who reviews access changes to Azure in pull requests. You need to decide if an access review needs to be conducted by a security professional or if it can be handled by an automated process.
+          copilot -p "Your output should be in JSON format as follows and this should be the only output you provide:
+          {
+            \"review_needed\": <true|false>,
+            \"explanation\": \"<brief explanation>\"
+          } 
+          
+          You are a security professional who reviews access changes to Azure in pull requests. You need to decide if an access review needs to be conducted by a security professional or if it can be handled by an automated process.
 
           Files in the config/azure/githubazure.com/entra-resources/applications directory contain configuration settings for Azure applications. Each one should have a catalog_service entry defined under the "tags" yaml section.
 
@@ -42,12 +48,6 @@ jobs:
           - Otherwise, return "false".
 
           Wether your response is "true" or "false", please provide a brief explanation of your decision.
-
-          Your output should be in JSON format as follows:
-          {
-            \"review_needed\": <true|false>,
-            \"explanation\": \"<brief explanation>\"
-          } 
           
           With all of this in mind, please review pull request number ${{ github.event.pull_request.number }} in the stephanmiehe/azure-config-demo repo and provide your response." --allow-all-tools 
         env:
