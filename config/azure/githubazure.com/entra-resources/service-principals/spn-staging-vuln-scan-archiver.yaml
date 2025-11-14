@@ -1,0 +1,13 @@
+---
+appDisplayName: spn-staging-vuln-scan-archiver
+appMetadata:
+displayName: spn-staging-vuln-scan-archiver
+managedIdentityResourceId:
+microsoftPolicyGroup:
+tags:
+- azure-config-managed
+- autocred
+- 'vault_env: staging'
+- 'vault_app: vuln-scan-archiver'
+- 'catalog_service: vuln-scan-archiver'
+tokensRevocationDateTime:
