@@ -26,6 +26,7 @@ jobs:
         run: npm install -g @github/copilot
 
       - name: Test
+        id: copilotreview
         run: |
           copilot --allow-tool 'write' -p "Your output should be in JSON format as follows and this should be the only output you provide:
           {
@@ -52,14 +53,14 @@ jobs:
           
           With all of this in mind, please review pull request number ${{ github.event.pull_request.number }} in the stephanmiehe/azure-config-demo repo and provide your response.
           
-          Write your output to a file named result.json." && echo "CCLI_OUTPUT=$(cat result.json)" >> $GITHUB_ENV
+          Write your output to a file named result.json."
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
       
       - name: Read result and post comment
         run: |
-          EXPLANATION=$(jq -r '.explanation' result.json)
-          REVIEW_NEEDED=$(jq -r '.review_needed' result.json)
+          EXPLANATION=$(jq -r '.explanation' $GITHUB_WORKSPACE/result.json)
+          REVIEW_NEEDED=$(jq -r '.review_needed' $GITHUB_WORKSPACE/result.json)
           
           # Post comment with explanation
           gh pr comment ${{ github.event.pull_request.number }} --body "$EXPLANATION"
